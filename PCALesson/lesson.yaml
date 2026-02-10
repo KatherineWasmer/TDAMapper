@@ -1,0 +1,18 @@
+- Class: meta
+  Course: Introduction to TDA Mapper and its Applications
+  Lesson: Principal Components Analysis
+  Author: Kate Wasmer
+  Type: Standard
+  Organization: University of Iowa
+  Version: 2.4.4
+  
+- Class: text
+  Output: Welcome to the module on principal components analysis!
+  
+#Explaining what PCA is. 
+- Class: text
+  Output: Principal components analysis (PCA) is an essential part of data analysis. It allows us to analyze thousands of variables by reducing the data to 2 or 3 simple components to accurately interpret the data. 
+
+#Explaining what a PCA line is.   
+- Class: text
+  Output: Now how do we perform a PCA? To do so, we need to find the line that encompasses the most data.  
