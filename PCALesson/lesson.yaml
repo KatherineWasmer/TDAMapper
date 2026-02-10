@@ -13,6 +13,399 @@
 - Class: text
   Output: Principal components analysis (PCA) is an essential part of data analysis. It allows us to analyze thousands of variables by reducing the data to 2 or 3 simple components to accurately interpret the data. 
 
+#1D data example.
+- Class: figure
+  Output: Let's look at a simple dataset built using basic R commands. 
+  Figure: simpledataset.R
+  FigureType: new
+
 #Explaining what a PCA line is.   
 - Class: text
   Output: Now how do we perform a PCA? To do so, we need to find the line that encompasses the most data.  
+  
+#Explaining how the PCA line matches up with the data provided.   
+- Class: figure
+  Output: Therefore, we want a straight line through all of the data points. 
+  Figure: PCAlinebasic.R
+  FigureType: new
+
+#2D dataset with 30 points that lies approximately on a line, but with variation using the set.seed() and runif functions.   
+- Class: text
+  Output: Now, let's look at a dataset with some variation. 
+
+- Class: figure
+  Output: How would the PCA line look in this case? 
+  Figure: simplevariation.R
+  FigureType: new
+  
+- Class: figure
+  Output: Notice that the line passes through many of the points, but it's not a perfect fit like the previous example. 
+  Figure: PCA1variation.R
+  FigureType: new 
+
+#Explanation for why we need 2 PCA lines.   
+- Class: text
+  Output: To account for the lack of a perfect fit, we need a second PCA line. 
+#NOTE--figure out dimensions for the graph so that it's consistent and also forms a right angle 
+  
+#Definition of PCA2 compared to PCA1  
+- Class: figure
+  Output: For any PCA, the second PCA line will be perpendicular to the first, as shown here. Notice the right angle formed by these lines.
+  Figure: PCA2variation.R
+  FigureType: new
+  
+#Rotating the 2D dataset   
+- Class: text
+  Output: We want to rotate the graph so that the PCA1 line is parallel to the x-axis. 
+ 
+- Class: figure
+  Output: By doing this, we will get a rotated plot that looks like this. 
+  Figure: PCAsimplerot.R
+  FigureType: new
+  
+- Class: text
+  Output: Notice that the data points generally lie along this line, but some diverge slightly below or above it. 
+  
+- Class: text
+  Output: The majority of datasets you work with won't be as simple as two we previously saw, however. 
+
+#Introducting to 3D datasets 
+- Class: text
+  Output: Rather than a 1D or 2D dataset, let's look at a 3D dataset and see how we can perform a PCA.
+  
+#Install scatterplot3d whenever you need to view or work with a 3D dataset  
+- Class: cmd_question
+  Output: In order to view a 3D dataset, we need to install the scatterplot3d package built in R. Please type the following; if (!require(package = "scatterplot3d")){install.packages(pkgs = "scatterplot3d")}
+  CorrectAnswer: EXPR 
+  AnswerTests: omnitest(correctExpr='if (!require(package = "scatterplot3d")){install.packages(pkgs = "scatterplot3d")}')
+  Hint: Did you remember to use the install.packages function? 
+  
+#Cone data   
+- Class: figure
+  Output: Here, we have the dataset of a cone. 
+  Figure: Data3D.R
+  FigureType: new 
+  
+- Class: text
+  Output: While this example is more complicated, we can still perform a PCA on the dataset as before. 
+
+#PCA lines for cone dataset 
+- Class: figure
+  Output: Since the data is 3D, we will get 3 PCA lines, as shown here. These lines encompass the majority of the dataset. 
+  Figure: Data3DPCA.R
+  FigureType: new 
+  
+- Class: text
+  Output: Notice that the 3 lines are perpendicular to one another, just like in the previous example with 2D data.
+
+#Explaining orthogonality for PCA lines   
+- Class: text
+  Output: No matter how many dimensions the dataset has, each PCA line will always be orthogonal to the previous line. 
+  
+- Class: figure
+  Output: Here is the cone projected onto the x-y plane. 
+  Figure: PCA3Drotation12.R
+  FigureType: new 
+
+#Explaining PCA projections and how to project correctly 
+- Class: text 
+  Output: This projection shows what the top of the cone looks like, if we sliced it into an infinite number of 2D planes. 
+
+- Class: text
+  Output: While this projection is accurate, it isn't particularly reflective of the general shape of the cone. 
+  
+- Class: figure
+  Output: Let's see what happens if we project onto the x-z plane instead. 
+  Figure: PCA3Drotation13.R
+  FigureType: new 
+  
+- Class: text
+  Output: Much better! Now we have a more relevant image that reflects the shape of the cone. 
+  
+- Class: text
+  Output: How was I able to find the PCA lines and transform the figures? Let's do an example of our own. 
+
+#Student example - flares dataset, from figure TDAflarecode.R
+- Class: figure
+  Output: Your objective is to perform a PCA on the figure shown to the right. You will be guided through every step.
+  Figure: TDAflarecode.R
+  FigureType: new
+
+- Class: text
+  Output: The first thing we need to do is find the first principal component. 
+  
+- Class: figure
+  Output: When performing specific commands, our first PCA line should emulate what you see on the right. 
+  Figure: PCA1line.R
+  FigureType: new
+  
+- Class: figure
+  Output: We can use a simple function to find the coordinates of the first principal component. 
+  Figure: TDAflarecode.R
+  FigureType: new
+  
+- Class: cmd_question
+  Output: Create a variable called 'pca' and let it equal prcomp(flares). 
+  CorrectAnswer: EXPR 
+  AnswerTests: omnitest(correctExpr='pca <- prcomp(flares)')
+  Hint: Did you remember to name your variable pca? 
+
+- Class: cmd_question
+  Output: Call your variable by typing 'pca' into the console.
+  CorrectAnswer: EXPR
+  AnswerTests: omnitest(correctExpr='pca')
+  Hint: Did you remember to type 'pca'? 
+  
+- Class: text
+  Output: You should see a data table now, with the rows being [1,] and [2,], and the columns being PC1 and PC2. 
+  
+- Class: text
+  Output: First, we want to create a line that crosses through the origin and the PC1 coordinates. 
+  
+- Class: text
+  Output: The [1,] row is the x-axis, and the [2,] row is the y-axis. 
+  
+- Class: cmd_question
+  Output: With this information in mind, create a variable and name it x, to establish our horizontal vector. Set it equal to c(0, pca$rotation[1,1]). 
+  CorrectAnswer: EXPR 
+  AnswerTests: omnitest(correctExpr='x <- c(0, pca$rotation[1,1])')
+  Hint: Did you remember to name your variable x? 
+  
+- Class: cmd_question
+  Output: Next, we want to create our vertical vector. Name it y and set it equal to c(0, pca$rotation[2,1])
+  CorrectAnswer: EXPR 
+  AnswerTests: omnitest(correctExpr='y <- c(0, pca$rotation[2,1])')
+  Hint: Did you remember to name your variable y?
+  
+- Class: cmd_question
+  Output: To combine the directions from these vectors to obtain a diagnonal line, create a variable called mod. Set it equal to lm(y ~ x). 
+  CorrectAnswer: EXPR
+  AnswerTests: omnitest(correctExpr='mod <- lm(y ~ x)')
+  Hint: Did you remember to put y before x? 
+
+#figure out bug here - report bug on swirl website 
+- Class: cmd_question
+  Output: After creating this linear model, we can plot the line. Using the abline function, type abline(mod, lw = 2, col = "blue"). You will see a line that crosses through both the zero vector and the vector for PC1. 
+  CorrectAnswer: EXPR 
+  AnswerTests: omnitest(correctExpr='abline(mod, lw = 2, col = "blue")')
+  Hint: Did you remember to use the abline function? If you are confused, type ?abline for more information on what this function entails. 
+  
+- Class: text
+  Output: Notice that this looks exactly like the figure shown previously. 
+
+- Class: figure
+  Output: Our second PCA line, shown in red, captures the second largest amount of variability. We have a 90 degree angle between both lines. 
+  Figure: PC2line.R
+  FigureType: new
+  
+- Class: figure
+  Output: We can create our second PCA line the same way we did with the first one. 
+  Figure: PCA1line.R
+  FigureType: new 
+  
+- Class: cmd_question
+  Output: Call the second PCA coordinate by typing pca into the console again.  
+  CorrectAnswer: EXPR
+  AnswerTests: omnitest(correctExpr='pca')
+  Hint: Did you remember to type pca to call it?
+
+- Class: text
+  Output: This time, the line will pass through the origin, and the PC2 coordinate. 
+
+- Class: cmd_question
+  Output: Create a variable called w and set it equal to c(0, pca$rotation[1,2]). This will be our horizontal vector. 
+  CorrectAnswer: EXPR
+  AnswerTests: omnitest(correctExpr='w <- c(0, pca$rotation[1,2])')
+  Hint: Did you remember to name your variable w?
+
+- Class: cmd_question
+  Output: For our vertical vector, create a variable called z and set it equal to c(0, pca$rotation[2,2]). 
+  CorrectAnswer: EXPR
+  AnswerTests: omnitest(correctExpr='z <- c(0, pca$rotation[2,2])')
+  Hint: Did you remember to name your variable z? 
+
+- Class: cmd_question
+  Output: Now that we have vectors in both directions, create the linear model. Name this variable mod1 and let it equal lm(z ~ w)
+  CorrectAnswer: EXPR 
+  AnswerTests: omnitest(correctExpr='mod1 <- lm(z ~ w)')
+  Hint: Make sure to name your variable mod1, and not mod. 
+
+- Class: cmd_question
+  Output: Finally, we can plot this line. Type abline(mod1, lw = 2, col = "red") to plot this line.
+  CorrectAnswer: EXPR 
+  AnswerTests: omnitest(correctExpr='abline(mod1, lw = 2, col = "red")')
+  Hint: Did you remember to use the abline function?
+
+- Class: text
+  Output: By definition, for any principal component analysis, the PCA1 and PCA2 lines will intersect at a 90 degree angle, as shown to the right. 
+  
+- Class: text 
+  Output: When you work with data analysis, it's always a good idea to color-code your data. 
+  
+- Class: text
+  Output: For this part of the exercise, we will use two different packages. 
+  
+- Class: cmd_question
+  Output: To install ggplot, type the following into the console; if (!require(package = "ggplot2")){install.packages(pkgs = "ggplot2")}
+  CorrectAnswer: EXPR 
+  AnswerTests: omnitest(correctExpr='if (!require(package = "ggplot2")){install.packages(pkgs = "ggplot2")}')
+  Hint: Did you remember to use the install.packages function? 
+  
+- Class: cmd_question
+  Output: Next, we want to install Viridis. Type the following; if (!require(package = "viridis")){install.packages(pkgs = "viridis")}
+  CorrectAnswer: EXPR 
+  AnswerTests: omnitest(correctExpr='if (!require(package = "viridis")){install.packages(pkgs = "viridis")}')
+  Hint: Did you remember to use the install.packages function? 
+  
+- Class: cmd_question
+  Output: Now we can load the packages. Type the following; library("ggplot2")
+  CorrectAnswer: EXPR
+  AnswerTests: omnitest(correctExpr='library("ggplot2")')
+  Hint: Did you remember to use the library() function? 
+  
+- Class: cmd_question
+  Output: Do the same for Viridis. Type the following; library("viridis")
+  CorrectAnswer: EXPR
+  AnswerTests: omnitest(correctExpr='library("viridis")')
+  Hint: Did you remember to use the library() function? 
+  
+#need data frame before plotting
+  
+- Class: text
+  Output: Before anything else, ggplot2 requires the use of a data frame. 
+
+- Class: cmd_question
+  Output: To do this, create a variable called flares1 and let it equal data.frame(flares). 
+  CorrectAnswer: EXPR
+  AnswerTests: omnitest(correctExpr='flares1 <- data.frame(flares)')
+  Hint: Did you remember to name your variable flares1? 
+  
+#plot the data first 
+
+- Class: cmd_question
+  Output: Rename the pca variable as prcomp(flares1). 
+  CorrectAnswer: EXPR
+  AnswerTests: omnitest(correctExpr='pca <- prcomp(flares1)')
+  Hint: Did you remember to perform the prcomp() function on flares1?
+  
+- Class: text
+  Output: Now, we want to find the slopes of the orthogonal PCA lines. 
+  
+- Class: cmd_question
+  Output: Create a variable called m. Let it equal (pca$rotation[2,1]/pca$rotation[1,1]).
+  CorrectAnswer: EXPR
+  AnswerTests: omnitest(correctExpr='m <- (pca$rotation[2,1]/pca$rotation[1,1])')
+  Hint: Did you remember to name your variable m?
+  
+- Class: cmd_question
+  Output: Now create a variable called n. Let it equal (pca$rotation[2,2]/pca$rotation[1,2])
+  CorrectAnswer: EXPR 
+  AnswerTests: omnitest(correctExpr='n <- (pca$rotation[2,2]/pca$rotation[1,2])')
+  Hint: Did you remember to name your variable n? 
+  
+- Class: text
+  Output: Plotting a figure in ggplot2 is more difficult, but it can be done with a more elaborate code. 
+  
+- Class: text
+  Output: Our colored flare data will follow a gradient along the X1 axis. 
+  
+- Class: text
+  Output: With Viridis, you can choose multiple color palletes. For this exercise, we will choose a blue-green-purple scheme. 
+  
+- Class: cmd_question
+  Output: With this information in mind, create a variable called plot. Set it equal to the following; ggplot(flares1, aes(X1,X2)) + geom_point(aes(color = X1)) + scale_color_viridis(option = "D") + coord_fixed()
+  CorrectAnswer: EXPR
+  AnswerTests: omnitest(correctExpr='plot <- ggplot(flares1, aes(X1,X2)) + geom_point(aes(color = X1)) + scale_color_viridis(option = "D") + coord_fixed()')
+  Hint: Did you remember to add together the ggplot(), geom_point(), scale_color_viridis() and coord_fixed() functions?
+  
+- Class: text
+  Output: Next, we want to add the PCA1 and PCA2 lines to our plot. 
+  
+- Class: text
+  Output: We can use the geom_abline() function to do this in ggplot2. 
+  
+- Class: cmd_question
+  Output: To do this, type the following; plot + geom_abline(intercept = 0, slope = m) + geom_abline(intercept = 0, slope = n)
+  CorrectAnswer: EXPR 
+  AnswerTests: omnitest(correctExpr='plot + geom_abline(intercept = 0, slope = m) + geom_abline(intercept = 0, slope = n)')
+  Hint: Did you remember to add the plot variable to the equation? 
+  
+- Class: text
+  Output: Now we have our flare with a color gradient. 
+
+#use ggplot to color the data BEFORE rotating!!!
+- Class: text
+  Output: Like the previous examples, when we perform our PCA on this flare data set, it will rotate. 
+  
+- Class: text
+  Output: How do we perform this rotation? 
+  
+#Explain how to perform rotation 
+- Class: text
+  Output: We need to utilize both the PCA1 and PCA2 lines to rotate. 
+  
+- Class: cmd_question
+  Output: Create a variable called PCA1 and let it equal the following; (as.matrix(flares1) %*% pca$rotation)[,1]
+  CorrectAnswer: EXPR
+  AnswerTests: omnitest(correctExpr='PCA1 <- (as.matrix(flares1) %*% pca$rotation)[,1]')
+  Hint: Did you remember to rotate the flares1 data? 
+  
+- Class: cmd_question
+  Output: Now create a variable called PCA2 and let it equal (as.matrix(flares1) %*% pca$rotation[,2])
+  CorrectAnswer: EXPR
+  AnswerTests: omnitest(correctExpr='PCA2 <- (as.matrix(flares1) %*% pca$rotation[,2]'))
+  Hint: Did you remember to extract the second column, [,2]?
+  
+- Class: text
+  Output: We need to bind the 2 variables to get a single variable. 
+  
+- Class: cmd_question
+  Output: To do this, create a variable called PCA12 and let it equal cbind(PCA1, PCA2). 
+  CorrectAnswer: EXPR 
+  AnswerTests: omnitest(correctExpr='PCA12 <- cbind(PCA1, PCA2)')
+  Hint: Did you remember to use the cbind() function? 
+  
+- Class: text
+  Output: Recall that we need to convert our data into a data frame. 
+  
+- Class: cmd_question
+  Output: Update our PCA12 variable and set it equal to data.frame(PCA12). 
+  CorrectAnswer: EXPR
+  AnswerTests: omnitest(correctExpr='PCA12 <- data.frame(PCA12)')
+  Hint: Did you remember to name the PCA12 variable data.frame(PCA12)? 
+  
+- Class: text
+  Output: We can plot the rotated flare dataset the same way we did with the previous set. 
+  
+- Class: text
+  Output: This time, however, we will use a color gradient along the PCA1 axis. 
+  
+- Class: cmd_question
+  Output: To do this, create a variable called rotated_plot. Let it equal the following; ggplot(PCA12, aes(PCA1,PCA2)) + geom_point(aes(color = PCA1)) + scale_color_viridis(option = "D") + coord_fixed()
+  CorrectAnswer: EXPR
+  AnswerTests: omnitest(correctExpr='rotated_plot <- ggplot(PCA12, aes(PCA1,PCA2)) + geom_point(aes(color = PCA1)) + scale_color_viridis(option = "D") + coord_fixed()')
+  Hint: Did you remember to name your variable rotated_plot? 
+  
+- Class: text
+  Output: We also want to plot the PCA1 and PCA2 lines to compare them to the rotated flare. 
+  
+- Class: cmd_question
+  Output: To plot our data, type the following; rotated_plot + geom_abline(intercept = 0, slope = m) + geom_abline(intercept = 0, slope = n)
+  CorrectAnswer: EXPR 
+  AnswerTests: omnitest(correctExpr='rotated_plot + geom_abline(intercept = 0, slope = m) + geom_abline(intercept = 0, slope = n)')
+  Hint: Did you remember to add the geom_abline() function to the rotated plot? 
+  
+- Class: text
+  Output: Congratulations! You have performed a PCA on the flare data set.
+  
+- Class: text
+  Output: As you can see from this exercise, there are many ways we can utilize PCA. 
+  
+- Class: text
+  Output: PCA is essential in many fields of math and science. 
+  
+- Class: text
+  Output: Although this course deals with TDA mapper, this exercise shows that we can utilize it in other ways besides topology. 
+  
+- Class: text
+  Output: Hopefully this lesson gave you a better understanding of data analysis and PCA. 
